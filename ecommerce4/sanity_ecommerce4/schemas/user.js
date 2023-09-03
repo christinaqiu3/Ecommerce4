@@ -1,45 +1,30 @@
-import { createEdgeRouter, expressWrapper, createRouter } from 'next-connect';
-import bcrypt from 'bcryptjs';
-import axios from 'axios';
-//import config from '../../../next.config';
-import { signToken } from '../../auth';
-
-export const user = createRouter();
-
-user.post(async (req, res) => {
-  const projectId = process.env.projectId;
-  const dataset = process.env.dataset;
-  const tokenWithWriteAccess = process.env.SANITY_AUTH_TOKEN;
-  const createMutations = [
-    {
-      create: {
-        _type: 'user',
-        name: req.body.name,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password),
-        isAdmin: false,
+export const user = {
+    name: 'user',
+    title: 'User',
+    type: 'document',
+    fields: [
+      {
+        name: 'name',
+        title: 'Name',
+        type: 'string',
       },
-    },
-  ];
-  const { data } = await axios.post(
-    `https://${projectId}.api.sanity.io/v1/data/mutate/${dataset}?returnIds=true`,
-    { mutations: createMutations },
-    {
-      headers: {
-        'Content-type': 'application/json',
-        Authorization: `Bearer ${tokenWithWriteAccess}`,
+  
+      {
+        name: 'email',
+        title: 'Email',
+        type: 'string',
       },
-    }
-  );
-  const userId = data.results[0].id;
-  const user = {
-    _id: userId,
-    name: req.body.name,
-    email: req.body.email,
-    isAdmin: false,
+      {
+        name: 'password',
+        title: 'Password',
+        type: 'string',
+      },
+      {
+        name: 'isAdmin',
+        title: 'Is Admin',
+        type: 'boolean',
+      },
+    ],
   };
-  const token = signToken(user);
-  res.send({ ...user, token });
-});
 
-export default user;
+  export default user
