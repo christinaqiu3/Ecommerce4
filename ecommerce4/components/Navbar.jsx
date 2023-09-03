@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { AiOutlineShopping } from 'react-icons/ai'
+import { AiOutlineShopping, AiOutlineUser } from 'react-icons/ai'
 
 import { Cart } from './';
 import { useStateContext} from '../context/StateContext';
@@ -12,6 +12,10 @@ const Navbar = () => {
     <div className="navbar-container">
       <p className="logo">
         <Link href="/">mm NFTS yes</Link>
+      </p>
+
+      <p className="logo">
+        <Link href="/login"><AiOutlineUser /></Link>
       </p>
 
       <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>
