@@ -15,17 +15,19 @@ import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import jsCookie from 'js-cookie';
 import { useRouter } from 'next/router';
-import { Store } from '../utils/Store';
+import { useStateContext } from '../context/StateContext';
 
 export default function RegisterScreen() {
-  const { state, dispatch } = useContext(Store);
-  const { userInfo } = state;
+  //const { state, dispatch } = useContext(Store);
+  //const { userInfo } = state;
+  const { setUserState, userState, dispatch } = useStateContext();
   const router = useRouter();
+  
   useEffect(() => {
-    if (userInfo) {
-      router.push('/');
+    if (userState) {
+     //router.push('/');
     }
-  }, [router, userInfo]);
+  }, [router, userState]);
 
   const {
     handleSubmit,
@@ -33,7 +35,7 @@ export default function RegisterScreen() {
     formState: { errors },
   } = useForm();
 
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar()
 
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
     if (password !== confirmPassword) {
@@ -46,15 +48,19 @@ export default function RegisterScreen() {
         email,
         password,
       });
+      console.log("hit success")
       dispatch({ type: 'USER_LOGIN', payload: data });
+      setUserState(data);
       jsCookie.set('userInfo', JSON.stringify(data));
-      router.push('/');
+      //router.push('/');
     } catch (err) {
-      enqueueSnackbar(err.message, { variant: 'error' });
+      console.log(err.message)
+      enqueueSnackbar("Something went wrong, please try again.", { variant: 'error' });
+      
     }
   };
   return (
-    <Layout title="Register">
+    <Layout title="Register" showHeaderAndFooter = {false}>
       <Form onSubmit={handleSubmit(submitHandler)}>
         <Typography component="h1" variant="h1">
           Register

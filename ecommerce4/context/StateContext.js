@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 
+import Cookies from 'js-cookie';
+
+
 const Context = createContext();
 
 export const StateContext = ({ children }) => {
@@ -12,6 +15,85 @@ export const StateContext = ({ children }) => {
 
   let foundProduct;
   let index;
+
+
+
+
+
+  const setUserState = (userData) => {
+    if (userData) {
+      setUserState(userData); 
+    } else {
+      setUserState(null); 
+    }
+  };
+
+  // Function to clear user state
+  const clearUserState = () => {
+    setUserState(null); 
+  };
+
+  const userState = async (userData) => {
+    try {
+      const response = await axios.post('/api/users/register', userData);
+      const { data } = response;
+      Cookies.set('userInfo', JSON.stringify(data));
+
+      // Update the userState to true when the user is logged in
+      userState(true);
+
+      return data;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error; 
+    }
+  }
+
+
+  const userRegister = async (userData) => {
+    try {
+      const response = await axios.post('/api/users/register', userData);
+      const { data } = response;
+      Cookies.set('userInfo', JSON.stringify(data));
+      
+      // No need to set userState here, it should be set elsewhere based on login status.
+      
+      return data;
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
+  }
+  
+  const userLogin = async (userData) => {
+    try {
+      const response = await axios.post('/api/users/login', userData);
+      const { data } = response;
+      Cookies.set('userInfo', JSON.stringify(data));
+      
+      // Set userState to true when the user is logged in.
+      // separate function or logic to handle user state.
+      userState(true);
+  
+      return data;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error; 
+    }
+  }
+
+  
+
+
+
+  
+  
+
+  
+
+
+
+
 
   const onAdd = (product, quantity) => {
     const checkProductInCart = cartItems.find((item) => item._id === product._id);
@@ -85,6 +167,7 @@ export const StateContext = ({ children }) => {
         totalPrice,
         totalQuantities,
         qty,
+        userState,
         incQty,
         decQty,
         onAdd,
@@ -101,3 +184,22 @@ export const StateContext = ({ children }) => {
 }
 
 export const useStateContext = () => useContext(Context);
+
+
+function reducer(state, action) {
+  switch (action.type) {
+    
+    case 'USER_LOGIN':
+      return { ...state, userState: action.payload };
+    case 'USER_LOGOUT':
+      return { ...state, userState: null };
+    default:
+      return state;
+  }
+}
+
+export function StoreProvider(props) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const value = { state, dispatch };
+  return <Store.Provider value={value}>{props.children}</Store.Provider>;
+}

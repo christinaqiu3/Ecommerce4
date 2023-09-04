@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Layout from '../components/Layout';
 import { useForm, Controller } from 'react-hook-form';
 import NextLink from 'next/link';
 import Form from '../components/Form';
+import { useSnackbar } from 'notistack';
 import {
   Button,
   Link,
@@ -11,15 +12,45 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useStateContext } from '../context/StateContext';
+import axios from 'axios';
+
 
 export default function LoginScreen() {
+
+  const { setUserState, userState, dispatch } = useStateContext();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (userState) {
+     //router.push('/');
+    }
+  }, [router, userState]);
+
+
+  const { enqueueSnackbar } = useSnackbar()
+
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
 
-  const submitHandler = async ({ email, password }) => {};
+  const submitHandler = async ({ email, password }) => {
+    try {
+      const { data } = await axios.post('/api/users/login', {
+        email,
+        password,
+      });
+      dispatch({ type: 'USER_LOGIN', payload: data });
+      setUserState(data);
+      Cookies.set('userInfo', JSON.stringify(data));
+      //router.push('/');
+    } catch (err) {
+      enqueueSnackbar(err.message, { variant: 'error' });
+    }
+  };
   return (
     <Layout title="Login" showHeaderAndFooter={false}>
       <Form onSubmit={handleSubmit(submitHandler)}>

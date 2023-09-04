@@ -6,7 +6,10 @@ import { Cart } from './';
 import { useStateContext} from '../context/StateContext';
 
 const Navbar = () => {
-  const { showCart, setShowCart, totalQuantities, userInfo } = useStateContext();
+  const { showCart, setShowCart, totalQuantities, userState } = useStateContext();
+
+
+  
 
   return (
     <div className="navbar-container">
@@ -15,10 +18,10 @@ const Navbar = () => {
       </p>
 
       <p className="logo">
-        {userInfo? (
-            <Link href="/profile"><AiOutlineUserAdd /></Link>
+        {userState? (
+            <Link href="/profile"><AiOutlineUser /></Link>
           ) : (
-            <Link href="/login"><AiOutlineUser /></Link>)}
+            <Link href="/login"><AiOutlineUserAdd /></Link>)}
       </p>
 
       <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>

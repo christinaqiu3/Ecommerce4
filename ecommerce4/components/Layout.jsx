@@ -8,7 +8,7 @@ const Layout = ({ children, showHeaderAndFooter = true }) => {
   return (
     <div className="layout">
       <Head>
-        <title>JS Mastery Store</title>
+        <title>CQ store</title>
       </Head>
       {showHeaderAndFooter && (
         <>
