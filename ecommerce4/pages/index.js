@@ -11,6 +11,18 @@ const Home = ({ products, bannerData }) => (
       <p>yay finally website working</p>
     </div>
 
+
+    <button onClick={() => console.log(products)}>All</button>
+    <button onClick={() => console.log(products)}>Person</button>
+    <button onClick={() => console.log(products)}>Animal</button>
+    <button onClick={() => console.log(products)}>Food</button>
+
+
+
+
+
+
+
     <div className="products-container">
       {products?.map((product) => <Product key={product._id} product={product} />)}
     </div>

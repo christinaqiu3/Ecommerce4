@@ -17,12 +17,7 @@ const Navbar = () => {
         <Link href="/">mm NFTS yes</Link>
       </p>
 
-      <p className="logo">
-        {userState? (
-            <Link href="/profile"><AiOutlineUser /></Link>
-          ) : (
-            <Link href="/login"><AiOutlineUserAdd /></Link>)}
-      </p>
+      
 
       <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>
         <AiOutlineShopping />
