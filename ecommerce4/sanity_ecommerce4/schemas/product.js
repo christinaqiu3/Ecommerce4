@@ -35,6 +35,11 @@ export const product = {
         name: 'details',
         title: 'Details',
         type: 'string',
+      },
+      { 
+        name: 'tag',
+        title: 'Tag',
+        type: 'string',
       }
     ]
   }

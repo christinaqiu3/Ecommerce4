@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { client } from '../lib/client';
 import { Product, FooterBanner, HeroBanner } from '../components';
 
-const Home = ({ products, bannerData }) => (
+const Home = ({ products, bannerData }) => {
+
+  const [selectedTag, setSelectedTag] = useState('All');
+
+  const filteredProducts = selectedTag === 'All' ? products : products.filter(product => product.tag.includes(selectedTag));
+
+  return(
   <div>
     <HeroBanner heroBanner={bannerData.length && bannerData[0]}  />
     <div className="products-heading">
@@ -12,24 +18,24 @@ const Home = ({ products, bannerData }) => (
     </div>
 
 
-    <button onClick={() => console.log(products)}>All</button>
-    <button onClick={() => console.log(products)}>Person</button>
-    <button onClick={() => console.log(products)}>Animal</button>
-    <button onClick={() => console.log(products)}>Food</button>
-
-
-
+    <div className="products-container">
+      <button type="button" onClick={() => setSelectedTag('All')} className="select-btn">All</button>
+      <button type="button" onClick={() => setSelectedTag('person')} className="select-btn">Person</button>
+      <button type="button" onClick={() => setSelectedTag('animal')} className="select-btn">Animal</button>
+      <button type="button" onClick={() => setSelectedTag('food')} className="select-btn">Food</button>
+    </div>
 
 
 
 
     <div className="products-container">
-      {products?.map((product) => <Product key={product._id} product={product} />)}
+      {filteredProducts.map((product) => <Product key={product._id} product={product} />)}
     </div>
 
     <FooterBanner footerBanner={bannerData && bannerData[0]} />
   </div>
-);
+  );
+};
 
 export const getServerSideProps = async () => {
   const query = '*[_type == "product"]';
@@ -40,7 +46,7 @@ export const getServerSideProps = async () => {
 
   return {
     props: { products, bannerData }
-  }
+  };
 }
 
 export default Home;

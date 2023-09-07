@@ -9,9 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@babel/core": "^7.22.11",
-    "@babel/preset-react": "^7.22.5",
-    "@babel/runtime": "^7.22.11",
+    "@babel/runtime": "^7.22.15",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -41,6 +39,9 @@
     "stripe": "^8.209.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.15",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-react": "^7.22.15",
     "@types/bcryptjs": "^2.4.3",
     "@types/js-cookie": "^3.0.3",
     "@types/micro-cors": "^0.1.3"
