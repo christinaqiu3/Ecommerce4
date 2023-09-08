@@ -15,7 +15,7 @@ I covered:
 3.
 
 At the beginning I had a lot of issues because the tutorial I was referencing was for a different version of NextJS or something
-so while setting up the project there were a ton of errors. Also even on the official websites their syntax was WRONG I had to piece
+so while setting up the project there were a ton of errors. Even the official sanity website's syntax was WRONG I had to piece
 together advice from different posts on stack overflow and at that point I was just randomly trying anything I could in despiration.
 
 Thats why this github project is named ECommerce4, I started from scratch to try to fix the errors four times LOL. 
