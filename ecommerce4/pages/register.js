@@ -17,7 +17,7 @@ import jsCookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useStateContext } from '../context/StateContext';
 
-export default function RegisterScreen() {
+export function RegisterScreen() {
   //const { state, dispatch } = useContext(Store);
   //const { userInfo } = state;
   const { setUserState, userState, dispatch } = useStateContext();
@@ -38,6 +38,8 @@ export default function RegisterScreen() {
   const { enqueueSnackbar } = useSnackbar()
 
   const submitHandler = async ({ name, email, password, confirmPassword }) => {
+    console.log("Before axios.post")
+    
     if (password !== confirmPassword) {
       enqueueSnackbar("Passwords don't match", { variant: 'error' });
       return;
@@ -54,9 +56,8 @@ export default function RegisterScreen() {
       jsCookie.set('userInfo', JSON.stringify(data));
       //router.push('/');
     } catch (err) {
-      console.log(err.message)
+      console.log("fuckkkkkk")
       enqueueSnackbar("Something went wrong, please try again.", { variant: 'error' });
-      
     }
   };
   return (
@@ -199,3 +200,5 @@ export default function RegisterScreen() {
     </Layout>
   );
 }
+
+export default RegisterScreen;

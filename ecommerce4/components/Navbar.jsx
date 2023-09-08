@@ -1,5 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
 import { AiOutlineShopping, AiOutlineUser, AiOutlineUserAdd } from 'react-icons/ai'
 
 import { Cart } from './';
@@ -17,6 +19,8 @@ const Navbar = () => {
         <Link href="/">mm NFTS yes</Link>
       </p>
 
+      
+      
       
 
       <button type="button" className="cart-icon" onClick={() => setShowCart(true)}>

@@ -1,8 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useReducer } from 'react';
 import { toast } from 'react-hot-toast';
-
+import axios from 'axios';
 import Cookies from 'js-cookie';
 
+
+const initialState = {
+  userInfo: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null,
+};
 
 const Context = createContext();
 
@@ -12,19 +16,27 @@ export const StateContext = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   let foundProduct;
   let index;
 
 
-
+  useEffect(() => {
+    const storedUserInfo = Cookies.get('userInfo');
+    if (storedUserInfo) {
+      dispatch({ type: 'USER_LOGIN', payload: JSON.parse(storedUserInfo) });
+    }
+  }, []);
 
 
   const setUserState = (userData) => {
     if (userData) {
-      setUserState(userData); 
+      Cookies.set('userInfo', JSON.stringify(userData));
+      dispatch({ type: 'USER_LOGIN', payload: userData });
     } else {
-      setUserState(null); 
+      Cookies.remove('userInfo');
+      dispatch({ type: 'USER_LOGOUT' });
     }
   };
 
@@ -33,22 +45,21 @@ export const StateContext = ({ children }) => {
     setUserState(null); 
   };
 
-  const userState = async (userData) => {
+  const userLogin = async (userData) => {
     try {
-      const response = await axios.post('/api/users/register', userData);
+      const response = await axios.post('/api/users/login', userData);
       const { data } = response;
       Cookies.set('userInfo', JSON.stringify(data));
-
-      // Update the userState to true when the user is logged in
-      userState(true);
-
+      
+      // Update the user state to indicate a successful login
+      setUserState(data);
+  
       return data;
     } catch (error) {
       console.error('Login error:', error);
       throw error; 
     }
-  }
-
+  };
 
   const userRegister = async (userData) => {
     try {
@@ -65,22 +76,6 @@ export const StateContext = ({ children }) => {
     }
   }
   
-  const userLogin = async (userData) => {
-    try {
-      const response = await axios.post('/api/users/login', userData);
-      const { data } = response;
-      Cookies.set('userInfo', JSON.stringify(data));
-      
-      // Set userState to true when the user is logged in.
-      // separate function or logic to handle user state.
-      userState(true);
-  
-      return data;
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error; 
-    }
-  }
 
   
 
@@ -167,7 +162,8 @@ export const StateContext = ({ children }) => {
         totalPrice,
         totalQuantities,
         qty,
-        userState,
+        userState: state.userInfo,
+        setUserState,
         incQty,
         decQty,
         onAdd,
@@ -188,7 +184,6 @@ export const useStateContext = () => useContext(Context);
 
 function reducer(state, action) {
   switch (action.type) {
-    
     case 'USER_LOGIN':
       return { ...state, userState: action.payload };
     case 'USER_LOGOUT':

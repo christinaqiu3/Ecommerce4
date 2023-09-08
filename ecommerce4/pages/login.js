@@ -43,11 +43,13 @@ export default function LoginScreen() {
         email,
         password,
       });
+      console.log("login success")
       dispatch({ type: 'USER_LOGIN', payload: data });
       setUserState(data);
       Cookies.set('userInfo', JSON.stringify(data));
       //router.push('/');
     } catch (err) {
+      console.log("login failed")
       enqueueSnackbar(err.message, { variant: 'error' });
     }
   };
