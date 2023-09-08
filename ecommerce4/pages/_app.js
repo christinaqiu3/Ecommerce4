@@ -8,7 +8,6 @@ import { StateContext } from '../context/StateContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ClerkProvider {...pageProps}>
     <SnackbarProvider>
     <StateContext>
       <Layout>
@@ -17,7 +16,6 @@ function MyApp({ Component, pageProps }) {
       </Layout>
     </StateContext>
     </SnackbarProvider>
-    </ClerkProvider>
   )
 }
 
