@@ -14,17 +14,9 @@ I covered:
 
 3.
 
-At the beginning I had a lot of issues because the tutorial I was referencing was for a different version of NextJS or something
-so while setting up the project there were a ton of errors. Even the official sanity website's syntax was WRONG I had to piece
-together advice from different posts on stack overflow and at that point I was just randomly trying anything I could in desperation.
-
-Thats why this github project is named ECommerce4, I started from scratch to try to fix the errors four times LOL. 
-So yeah I'm persistient and determined and stubborn to keep on trying until things work out! ( or im just dumb :P ) 
-
-That took me like 2 days to completely iron out. Then after that it was mostly smoother sailing, I spent around 4-2 hours per day 
-on this project during the rest of the week (this includes the time I spent trying to learn what the code meant through various resources, not just the code typing time itself)
-
-TLDR I spent a lot longer on this project than I origionally intended to because I got really into it ^u^ ~16 hours in total maybe?
+I had a lot of issues starting out because Sanity's official syntax guide was wrong! 
+I had to piece together advice from stackoverflow posts and restarted 4 times (thus the name ECommerce4). 
+My stubbornness to keep on trying until things work out is what pulled me through.
 
 4.
 
